@@ -1,0 +1,38 @@
+stages:
+  download:
+    cmd: python3 dataset-download.py
+    deps:
+      - dataset-download.py
+    outs:
+      - data/raw/dataset.csv
+
+  preprocess:
+    cmd: python3 preprocess.py
+    deps:
+      - preprocess.py
+      - data/raw/dataset.csv
+    outs:
+      - data/processed/train.csv
+      - data/processed/valid.csv
+      - data/processed/test.csv
+      - artifacts/preprocessor.joblib
+
+  train:
+    cmd: python3 train.py
+    deps:
+      - train.py
+      - data/processed/train.csv
+      - data/processed/valid.csv
+      - params.yaml
+    outs:
+      - artifacts/model.joblib
+
+  evaluate:
+    cmd: python3 evaluate.py
+    deps:
+      - evaluate.py
+      - data/processed/test.csv
+      - artifacts/model.joblib
+    outs:
+      - artifacts/confusion_matrix.png
+      - artifacts/classification_report.json

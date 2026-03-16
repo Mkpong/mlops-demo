@@ -1,0 +1,90 @@
+schema: '2.0'
+stages:
+  download:
+    cmd: python3 dataset-download.py
+    deps:
+    - path: dataset-download.py
+      hash: md5
+      md5: 69dd091ef3480fc428ef84326f2c53cd
+      size: 1505
+    outs:
+    - path: data/raw/dataset.csv
+      hash: md5
+      md5: 013d0da08d6506664ce640459139176b
+      size: 3858
+  preprocess:
+    cmd: python3 preprocess.py
+    deps:
+    - path: data/raw/dataset.csv
+      hash: md5
+      md5: 013d0da08d6506664ce640459139176b
+      size: 3858
+    - path: preprocess.py
+      hash: md5
+      md5: 713f3019e59bbb30b61052e14bf91137
+      size: 4825
+    outs:
+    - path: artifacts/preprocessor.joblib
+      hash: md5
+      md5: c74af51744aa40789ba456e5726c672f
+      size: 2245
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 11df2321396ce6aa6c5b329b0de0ff16
+      size: 2701
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 7eef343b3919f9f9f38b522d7b058d7b
+      size: 7944
+    - path: data/processed/valid.csv
+      hash: md5
+      md5: c3c8a0e9c788f62ff0653fba4e8a9dc9
+      size: 2705
+  train:
+    cmd: python3 train.py
+    deps:
+    - path: data/processed/train.csv
+      hash: md5
+      md5: 7eef343b3919f9f9f38b522d7b058d7b
+      size: 7944
+    - path: data/processed/valid.csv
+      hash: md5
+      md5: c3c8a0e9c788f62ff0653fba4e8a9dc9
+      size: 2705
+    - path: params.yaml
+      hash: md5
+      md5: 7ddab0082d9a9d2044f42356d246427f
+      size: 303
+    - path: train.py
+      hash: md5
+      md5: 481badd3b45481930a9d28bbf59f230a
+      size: 3126
+    outs:
+    - path: artifacts/model.joblib
+      hash: md5
+      md5: 2f129098c048e334e770a806c7873b83
+      size: 300177
+  evaluate:
+    cmd: python3 evaluate.py
+    deps:
+    - path: artifacts/model.joblib
+      hash: md5
+      md5: 2f129098c048e334e770a806c7873b83
+      size: 300177
+    - path: data/processed/test.csv
+      hash: md5
+      md5: 11df2321396ce6aa6c5b329b0de0ff16
+      size: 2701
+    - path: evaluate.py
+      hash: md5
+      md5: ab9035ec0559f1c49a54caedf89c384f
+      size: 2592
+    outs:
+    - path: artifacts/classification_report.json
+      hash: md5
+      md5: fb8c95f1ea1d9bf69f86a82c04864ee9
+      size: 644
+    - path: artifacts/confusion_matrix.png
+      hash: md5
+      md5: e459e5f3b8b6ce8d00d9ff85fdf12522
+      size: 22867

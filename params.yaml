@@ -1,0 +1,15 @@
+data:
+  train_path: data/processed/train.csv
+  valid_path: data/processed/valid.csv
+  target_column: species
+
+model:
+  type: RandomForestClassifier
+  model_path: artifacts/model.joblib
+  n_estimators: 200
+  max_depth: 8
+  random_state: 42
+
+mlflow:
+  experiment_name: dvc-csv-pipeline
+  run_name: train03
