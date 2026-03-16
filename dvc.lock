@@ -53,7 +53,7 @@ stages:
       size: 2705
     - path: params.yaml
       hash: md5
-      md5: 7ddab0082d9a9d2044f42356d246427f
+      md5: 3f495b76271dfe485d2090c7ea0fbb44
       size: 303
     - path: train.py
       hash: md5
@@ -62,15 +62,15 @@ stages:
     outs:
     - path: artifacts/model.joblib
       hash: md5
-      md5: 2f129098c048e334e770a806c7873b83
-      size: 300177
+      md5: ad2e167e05ef7e6623dee30fde8c4733
+      size: 754529
   evaluate:
     cmd: python3 evaluate.py
     deps:
     - path: artifacts/model.joblib
       hash: md5
-      md5: 2f129098c048e334e770a806c7873b83
-      size: 300177
+      md5: ad2e167e05ef7e6623dee30fde8c4733
+      size: 754529
     - path: data/processed/test.csv
       hash: md5
       md5: 11df2321396ce6aa6c5b329b0de0ff16

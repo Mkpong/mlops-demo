@@ -6,10 +6,10 @@ data:
 model:
   type: RandomForestClassifier
   model_path: artifacts/model.joblib
-  n_estimators: 200
+  n_estimators: 500
   max_depth: 8
   random_state: 42
 
 mlflow:
   experiment_name: dvc-csv-pipeline
-  run_name: train03
+  run_name: train02
