@@ -1,0 +1,46 @@
+stages:
+  download:
+    cmd: python3 dataset-download.py
+    deps:
+      - dataset-download.py
+    outs:
+      - data/raw
+
+  preprocess:
+    cmd: python3 preprocess.py
+    deps:
+      - preprocess.py
+      - data/raw
+    params:
+      - artifacts.class_path
+    outs:
+      - data/processed
+      - artifacts/classes.json
+
+  train:
+    cmd: python3 train.py
+    deps:
+      - train.py
+      - model_utils.py
+      - data/processed
+      - artifacts/classes.json
+    params:
+      - train
+      - mlflow
+      - artifacts.model_path
+    outs:
+      - artifacts/model.pt
+
+  evaluate:
+    cmd: python3 evaluate.py
+    deps:
+      - evaluate.py
+      - model_utils.py
+      - data/processed
+      - artifacts/model.pt
+      - artifacts/classes.json
+    params:
+      - mlflow
+      - artifacts.metrics_path
+    outs:
+      - artifacts/metrics.json

@@ -1,0 +1,114 @@
+schema: '2.0'
+stages:
+  download:
+    cmd: python3 dataset-download.py
+    deps:
+    - path: dataset-download.py
+      hash: md5
+      md5: 9866645ae5750436412d2cd80053ad5a
+      size: 895
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: e252d2c8ba36d1ab3e21a873ab62daa3.dir
+      size: 356712185
+      nfiles: 9
+  preprocess:
+    cmd: python3 preprocess.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: e252d2c8ba36d1ab3e21a873ab62daa3.dir
+      size: 356712185
+      nfiles: 9
+    - path: preprocess.py
+      hash: md5
+      md5: 7f20daccc9cf94e4f6e4b0f3b2ffae84
+      size: 1825
+    params:
+      params.yaml:
+        artifacts.class_path: artifacts/classes.json
+    outs:
+    - path: artifacts/classes.json
+      hash: md5
+      md5: d49197c097f2c55a828af76fcdf0b7e4
+      size: 112
+    - path: data/processed
+      hash: md5
+      md5: b54e5ce0578b15c2d6a52023230a774e.dir
+      size: 208
+      nfiles: 1
+  train:
+    cmd: python3 train.py
+    deps:
+    - path: artifacts/classes.json
+      hash: md5
+      md5: d49197c097f2c55a828af76fcdf0b7e4
+      size: 112
+    - path: data/processed
+      hash: md5
+      md5: b54e5ce0578b15c2d6a52023230a774e.dir
+      size: 208
+      nfiles: 1
+    - path: model_utils.py
+      hash: md5
+      md5: 69480a6f30b8b86cfde10391894e0e2f
+      size: 454
+    - path: train.py
+      hash: md5
+      md5: 799926540f6aa50b01abb79cc2fe1af8
+      size: 4925
+    params:
+      params.yaml:
+        artifacts.model_path: artifacts/model.pt
+        mlflow:
+          experiment_name: cifar10-vgg16-gpu
+          run_name: vgg16_gpu_run_03
+        train:
+          epochs: 3
+          lr: 0.0002
+          optimizer: adam
+          weight_decay: 0.00015
+          pretrained: true
+          freeze_features: true
+          seed: 42
+    outs:
+    - path: artifacts/model.pt
+      hash: md5
+      md5: 01d8c82403040860054f977bc59ae6c6
+      size: 537215534
+  evaluate:
+    cmd: python3 evaluate.py
+    deps:
+    - path: artifacts/classes.json
+      hash: md5
+      md5: d49197c097f2c55a828af76fcdf0b7e4
+      size: 112
+    - path: artifacts/model.pt
+      hash: md5
+      md5: 01d8c82403040860054f977bc59ae6c6
+      size: 537215534
+    - path: data/processed
+      hash: md5
+      md5: b54e5ce0578b15c2d6a52023230a774e.dir
+      size: 208
+      nfiles: 1
+    - path: evaluate.py
+      hash: md5
+      md5: 4b9b166313b694b6afd55e8e248e9a02
+      size: 2994
+    - path: model_utils.py
+      hash: md5
+      md5: 69480a6f30b8b86cfde10391894e0e2f
+      size: 454
+    params:
+      params.yaml:
+        artifacts.metrics_path: artifacts/metrics.json
+        mlflow:
+          experiment_name: cifar10-vgg16-gpu
+          run_name: vgg16_gpu_run_03
+    outs:
+    - path: artifacts/metrics.json
+      hash: md5
+      md5: 95ba36793df51e189e6363e7f1e1b5d6
+      size: 854

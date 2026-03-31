@@ -1,0 +1,17 @@
+train:
+  epochs: 3
+  lr: 0.0002
+  optimizer: adam
+  weight_decay: 0.00015
+  pretrained: true
+  freeze_features: true
+  seed: 42
+
+mlflow:
+  experiment_name: cifar10-vgg16-gpu
+  run_name: vgg16_gpu_run_03
+
+artifacts:
+  model_path: artifacts/model.pt
+  metrics_path: artifacts/metrics.json
+  class_path: artifacts/classes.json
