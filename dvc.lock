@@ -1,0 +1,90 @@
+schema: '2.0'
+stages:
+  download:
+    cmd: python3 dataset-download.py
+    deps:
+    - path: dataset-download.py
+      hash: md5
+      md5: 9866645ae5750436412d2cd80053ad5a
+      size: 895
+    outs:
+    - path: data/raw
+      hash: md5
+      md5: e252d2c8ba36d1ab3e21a873ab62daa3.dir
+      size: 356712185
+      nfiles: 9
+  preprocess:
+    cmd: python3 preprocess.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: e252d2c8ba36d1ab3e21a873ab62daa3.dir
+      size: 356712185
+      nfiles: 9
+    - path: preprocess.py
+      hash: md5
+      md5: cfe5e412a996c6cddc7c7592c402ea11
+      size: 1555
+    outs:
+    - path: artifacts/classes.json
+      hash: md5
+      md5: d49197c097f2c55a828af76fcdf0b7e4
+      size: 112
+    - path: data/processed
+      hash: md5
+      md5: b54e5ce0578b15c2d6a52023230a774e.dir
+      size: 208
+      nfiles: 1
+  train:
+    cmd: python3 train.py
+    deps:
+    - path: data/raw
+      hash: md5
+      md5: e252d2c8ba36d1ab3e21a873ab62daa3.dir
+      size: 356712185
+      nfiles: 9
+    - path: model_utils.py
+      hash: md5
+      md5: 69480a6f30b8b86cfde10391894e0e2f
+      size: 454
+    - path: params.yaml
+      hash: md5
+      md5: 99173f42993545369e97c63bdbcb7a56
+      size: 400
+    - path: train.py
+      hash: md5
+      md5: 5d42c43d8985bd7414226c38ba268892
+      size: 4844
+    outs:
+    - path: artifacts/metrics.json
+      hash: md5
+      md5: 3f7e3f8dd9caba8a7f4976c08699b1a0
+      size: 179
+    - path: artifacts/model.pt
+      hash: md5
+      md5: 4ca63b8d49b30a5c75a5fe0477bbc4d7
+      size: 537215534
+  evaluate:
+    cmd: python3 evaluate.py
+    deps:
+    - path: artifacts/model.pt
+      hash: md5
+      md5: 4ca63b8d49b30a5c75a5fe0477bbc4d7
+      size: 537215534
+    - path: data/raw
+      hash: md5
+      md5: e252d2c8ba36d1ab3e21a873ab62daa3.dir
+      size: 356712185
+      nfiles: 9
+    - path: evaluate.py
+      hash: md5
+      md5: 1930b951cce8df93f51e06d175952cde
+      size: 2695
+    - path: model_utils.py
+      hash: md5
+      md5: 69480a6f30b8b86cfde10391894e0e2f
+      size: 454
+    - path: params.yaml
+      hash: md5
+      md5: 99173f42993545369e97c63bdbcb7a56
+      size: 400
