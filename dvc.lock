@@ -49,7 +49,7 @@ stages:
       size: 454
     - path: params.yaml
       hash: md5
-      md5: 99173f42993545369e97c63bdbcb7a56
+      md5: 8d46263427d94b2d6944e1d17e6fc194
       size: 400
     - path: train.py
       hash: md5
@@ -58,18 +58,18 @@ stages:
     outs:
     - path: artifacts/metrics.json
       hash: md5
-      md5: 3f7e3f8dd9caba8a7f4976c08699b1a0
-      size: 179
+      md5: fe65870e5c1f4f8afb45b7a03e20b81d
+      size: 267
     - path: artifacts/model.pt
       hash: md5
-      md5: 4ca63b8d49b30a5c75a5fe0477bbc4d7
+      md5: 4d4024fa0d4f6a43101d6314afff7e75
       size: 537215534
   evaluate:
     cmd: python3 evaluate.py
     deps:
     - path: artifacts/model.pt
       hash: md5
-      md5: 4ca63b8d49b30a5c75a5fe0477bbc4d7
+      md5: 4d4024fa0d4f6a43101d6314afff7e75
       size: 537215534
     - path: data/raw
       hash: md5
@@ -86,5 +86,5 @@ stages:
       size: 454
     - path: params.yaml
       hash: md5
-      md5: 99173f42993545369e97c63bdbcb7a56
+      md5: 8d46263427d94b2d6944e1d17e6fc194
       size: 400
